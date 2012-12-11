@@ -1,19 +1,19 @@
 %define upstream_name    Data-Denter
 %define upstream_version 0.15
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary:    An alternative to Data::Dumper and Storable
-License:    GPL+ or Artistic
-Group:      Development/Perl
-Url:        http://search.cpan.org/dist/%{upstream_name}
-Source0:    http://www.cpan.org/modules/by-module/Data/%{upstream_name}-%{upstream_version}.tar.gz
+Summary:	An alternative to Data::Dumper and Storable
+License:	GPL+ or Artistic
+Group:		Development/Perl
+Url:		http://search.cpan.org/dist/%{upstream_name}
+Source0:	http://www.cpan.org/modules/by-module/Data/%{upstream_name}-%{upstream_version}.tar.gz
 
-BuildRequires: perl(YAML)
-BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires:	perl-devel
+BuildRequires:	perl(YAML)
+BuildArch:	noarch
 
 %description
 The main problem with Data::Dumper (one of my all-time favorite modules) is
@@ -34,24 +34,29 @@ readability/editability, safe deserialization, and (eventually) speed.
 %setup -q -n %{upstream_name}-%{upstream_version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-
-%{make}
+perl Makefile.PL INSTALLDIRS=vendor
+%make
 
 %check
-%{make} test
+%make test
 
 %install
-rm -rf %buildroot
 %makeinstall_std
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root)
 %doc Changes README
 %{_mandir}/man3/*
-%perl_vendorlib/*
+%{perl_vendorlib}/*
+
+%changelog
+* Mon Apr 18 2011 Funda Wang <fwang@mandriva.org> 0.150.0-2mdv2011.0
++ Revision: 655583
+- rebuild for updated spec-helper
+
+* Wed Jul 28 2010 Shlomi Fish <shlomif@mandriva.org> 0.150.0-1mdv2011.0
++ Revision: 562687
+- import perl-Data-Denter
 
 
+* Sat Oct 10 2009 cpan2dist 0.15-1mdv
+- initial mdv release, generated with cpan2dist
